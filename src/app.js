@@ -63,7 +63,7 @@ const SearchResults = React.createClass({
 				<ul>
 				{ this.props.results.map((result) => {
 					return <li key={ result._id }><h3>{result._source.title}</h3><br/>
-																				<a href="{result._source.link}"><img src={result._source.image} /><br/></a>
+																				<a href={`${result._source.link}`}><img src={result._source.image} alt={result._source.abstract} /><br/></a>
 																				<p>{result._source.abstract}</p>
 								 </li> }) }
 				</ul>
