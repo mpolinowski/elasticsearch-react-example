@@ -193,8 +193,9 @@ https://medium.com/dailyjs/we-jumped-the-gun-moving-react-components-to-es2015-c
 
 
 ```js
-import { Component, React, PropTypes } from 'react'
+import { React, Component } from 'react'
 import { render } from 'react-dom'
+import PropTypes from 'prop-types'
 import elasticsearch from 'elasticsearch'
 
 const connectionString = 'localhost:9200';
@@ -264,13 +265,14 @@ class SearchResults extends Component {
 	}
 }
 
-SearchResults.propTypes = {
-	results: PropTypes.array
-};
-
 SearchResults.defaultProps = {
 	results: []
 };
 
+SearchResults.propTypes = {
+	results: PropTypes.array
+};
+
 render( <App />, document.getElementById( 'main' ) )
+
 ```
