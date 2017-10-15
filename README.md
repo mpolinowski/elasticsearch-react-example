@@ -1,6 +1,8 @@
 # elasticsearch-react-example
 An example project showing how to use ElasticSearch with React
 
+
+
 ## Prerequisites
 
 To run this example, you will need to configure Elasticsearch to accept requests from the browser using [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing). To enable CORS, add the following to Elasticsearch's config file. Usually, this file is located near the elasticsearch executable at `config/elasticsearch.yml`. [source](https://github.com/spalger/elasticsearch-angular-example)
@@ -32,6 +34,8 @@ http.cors:
 
 4. Run webpack (or webpack-dev-server) to build the index.js source file.
 ---
+
+
 
 ## Original createClass Syntax
 
@@ -95,6 +99,7 @@ const SearchResults = React.createClass({
 
 render( <App />, document.getElementById( 'main' ) )
 ```
+
 
 
 ## Update to a Elasticsearch 5.x index
@@ -176,7 +181,15 @@ const SearchResults = React.createClass({
 render( <App />, document.getElementById( 'main' ) )
 ```
 
+
+
 ## ES6 Class Syntax
+
+https://www.newmediacampaigns.com/blog/refactoring-react-components-to-es6-classes
+
+https://babeljs.io/blog/2015/06/07/react-on-es6-plus
+
+https://medium.com/dailyjs/we-jumped-the-gun-moving-react-components-to-es2015-class-syntax-2b2bb6f35cb3
 
 
 ```js
@@ -260,5 +273,4 @@ SearchResults.defaultProps = {
 };
 
 render( <App />, document.getElementById( 'main' ) )
-
 ```
