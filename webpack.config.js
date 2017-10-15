@@ -1,18 +1,20 @@
 module.exports = {
-	entry: "./src/app.js",
+	entry: './src/app.js',
 	output: {
 		filename: "index.js"
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
-				test: /\.js$/,
-				exclude: /node_modules/,
-				loader: 'babel',
-				query: {
-					presets: ['es2015', 'react']
-				}
-			}
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env', 'react']
+          }
+        }
+      },
 		]
 	}
 };
