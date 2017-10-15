@@ -265,7 +265,7 @@ class SearchResults extends Component {
 }
 
 SearchResults.propTypes = {
-	results: React.PropTypes.array
+	results: PropTypes.array
 };
 
 SearchResults.defaultProps = {
