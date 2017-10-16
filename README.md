@@ -193,29 +193,29 @@ https://medium.com/dailyjs/we-jumped-the-gun-moving-react-components-to-es2015-c
 
 
 ```js
-import { React, Component } from 'react'
-import { render } from 'react-dom'
-import PropTypes from 'prop-types'
-import elasticsearch from 'elasticsearch'
+import React, { Component } from "react";
+import { render } from "react-dom";
+import elasticsearch from "elasticsearch";
 
 const connectionString = 'localhost:9200';
 const _index = 'wiki2_de_2017_09_09';
 const _type = 'article';
 
+let client = new elasticsearch.Client({
+  host: connectionString,
+  log: "trace"
+});
+
 class App extends Component {
+  constructor(props) {
+    super(props);
 
-	constructor() {
-		super();
-		this.state = {
-			results: []
-		};
-		this.handleChange = this.handleChange.bind(this);
-	}
+    this.state = { results: [] };
+  }
+  handleChange(event) {
+    const search_query = event.target.value;
 
-	handleChange ( event ) {
-		const search_query = event.target.value
-
-		client.search({
+    client.search({
 			index: _index,
 			type: _type,
 			q: search_query,
@@ -228,51 +228,69 @@ class App extends Component {
 							},
 					},
 			},
-		}).then(function ( body ) {
-			this.setState({ results: body.hits.hits })
-		}.bind(this), function ( error ) {
-			console.trace( error.message );
-		});
-	}
-
-	render () {
-		return (
-			<div className="container">
-				<input type="text" onChange={ this.handleChange } />
-				<SearchResults results={ this.state.results } />
-			</div>
-		)
-	}
+		}).then(
+        function(body) {
+          this.setState({ results: body.hits.hits });
+        }.bind(this),
+        function(error) {
+          console.trace(error.message);
+        }
+      );
+  }
+  render() {
+    return (
+      <div className="container">
+        <input type="text" onChange={this.handleChange} />
+        <SearchResults results={this.state.results} />
+      </div>
+    );
+  }
 }
 
 class SearchResults extends Component {
+  render() {
+    const results = this.props.results || [];
 
-	render () {
-		return (
-			<div className="search_results">
-					<hr />
-					<ul>
-					{ props.results.map((result) => {
-						return
-							<li key={ result._id }>
-									<h3>{result._source.title}</h3><br/>
-									<a href={`${result._source.link}`}><img src={result._source.image} alt={result._source.abstract} /><br/></a>
-									<p>{result._source.abstract}</p>
-							</li> }) }
-					</ul>
-				</div>
-		)
-	}
+    return (
+      <div className="search_results">
+        <hr />
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Image</th>
+              <th>Abstract</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((result, i) =>
+                <ResultRows key={i} {...result} />
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 }
 
-SearchResults.defaultProps = {
-	results: []
-};
+const ResultRows = ({result}) => (
 
-SearchResults.propTypes = {
-	results: PropTypes.array
-};
+  <tr>
+    <td>
+      {result._source.title}
+    </td>
+    <td>
+      {result._source.title}
+    </td>
+    <td>
+      {result._source.link}
+    </td>
+    <td>
+      {result._source.abstract}
+    </td>
+  </tr>
+)
 
-render( <App />, document.getElementById( 'main' ) )
-
+render(<App />, document.getElementById("main"));
 ```
