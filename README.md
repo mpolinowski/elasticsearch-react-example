@@ -185,12 +185,6 @@ render( <App />, document.getElementById( 'main' ) )
 
 ## ES6 Class Syntax
 
-https://www.newmediacampaigns.com/blog/refactoring-react-components-to-es6-classes
-
-https://babeljs.io/blog/2015/06/07/react-on-es6-plus
-
-https://medium.com/dailyjs/we-jumped-the-gun-moving-react-components-to-es2015-class-syntax-2b2bb6f35cb3
-
 
 ```js
 import React, { Component } from "react";
@@ -208,89 +202,80 @@ let client = new elasticsearch.Client({
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+      this.state = { results: [] };
+    }
 
-    this.state = { results: [] };
-  }
-  handleChange(event) {
-    const search_query = event.target.value;
+    handleChange(event) {
+      const search_query = event.target.value;
 
-    client.search({
-			index: _index,
-			type: _type,
-			q: search_query,
-			body: {
-				query: {
-						multi_match: {
-								query: search_query,
-								fields: ['title^100', 'tags^100', 'abstract^20', 'description^10', 'chapter^5', 'title2^10', 'description2^10'],
-								fuzziness: 1,
-							},
-					},
-			},
-		}).then(
-        function(body) {
-          this.setState({ results: body.hits.hits });
-        }.bind(this),
-        function(error) {
-          console.trace(error.message);
-        }
+      client.search({
+  			index: _index,
+  			type: _type,
+  			body: {
+  				query: {
+  						multi_match: {
+  								query: search_query,
+  								fields: ['title^100', 'tags^100', 'abstract^20', 'description^10', 'chapter^5', 'title2^10', 'description2^10'],
+  								fuzziness: 1,
+  							},
+  					},
+  			},
+  		}).then(function(body) {
+            this.setState({ results: body.hits.hits });
+          }.bind(this),
+          function(error) {
+            console.trace(error.message);
+          }
+        );
+    }
+
+    render() {
+      return (
+        <div className="container">
+          <input type="text" onChange={this.handleChange} />
+          <SearchResults results={this.state.results} />
+        </div>
       );
-  }
-  render() {
-    return (
-      <div className="container">
-        <input type="text" onChange={this.handleChange} />
-        <SearchResults results={this.state.results} />
-      </div>
-    );
-  }
+    }
 }
 
-class SearchResults extends Component {
-  render() {
-    const results = this.props.results || [];
+const SearchResults = ({results}) => (
+  <div className="search_results">
+    <hr />
 
-    return (
-      <div className="search_results">
-        <hr />
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Image</th>
-              <th>Abstract</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((result, i) =>
-                <ResultRows key={i} {...result} />
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        {results.map((result , i) =>
+          <ResultRow key={i}
+                     title={result._source.title2} />
+        )}
+      </tbody>
+    </table>
+  </div>
+)
 
-const ResultRows = ({result}) => (
-
+const ResultRow = ({ title }) => (
   <tr>
     <td>
-      {result._source.title}
-    </td>
-    <td>
-      {result._source.title}
-    </td>
-    <td>
-      {result._source.link}
-    </td>
-    <td>
-      {result._source.abstract}
+      {title}
     </td>
   </tr>
 )
 
+
+
 render(<App />, document.getElementById("main"));
 ```
+
+
+https://www.newmediacampaigns.com/blog/refactoring-react-components-to-es6-classes
+
+https://babeljs.io/blog/2015/06/07/react-on-es6-plus
+
+https://medium.com/dailyjs/we-jumped-the-gun-moving-react-components-to-es2015-class-syntax-2b2bb6f35cb3
