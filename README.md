@@ -1,5 +1,5 @@
 # elasticsearch-react-example
-An example project showing how to use ElasticSearch with React
+An example project showing how to use ElasticSearch with React - based on [elasticsearch-react-example](https://github.com/scotchfield/elasticsearch-react-example) by [scotchfield](https://github.com/scotchfield)
 
 
 
@@ -17,7 +17,7 @@ http.cors:
 1. Clone this repo locally (or just download and unzip it)
 
   ```sh
-  git clone https://github.com/scotchfield/elasticsearch-react-example.git
+  git clone https://github.com/mpolinowski/elasticsearch-react-example.git
   ```
 
 2. Move into the project
@@ -204,6 +204,7 @@ class App extends Component {
   constructor(props) {
     super(props)
       this.state = { results: [] };
+      this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(event) {
