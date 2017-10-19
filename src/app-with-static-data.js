@@ -25,7 +25,7 @@ class App extends Component {
             }
           },
           {
-              "_index": "wiki2_de_2017_09_09",
+              "_index": "myIndex_2017_09_09",
               "_type": "article",
               "_id": "AV5mDXcSJw6qOfpXApsa",
               "_score": 2.1404631,

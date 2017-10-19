@@ -15,6 +15,7 @@ class App extends Component {
   constructor(props) {
     super(props)
       this.state = { results: [] };
+      this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(event) {
